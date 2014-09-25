@@ -33,7 +33,7 @@ public class GameProgressThread extends Thread {
 	}
 	
 	public void monsterMeetPoint() {
-		
+		System.out.println("");
 	}
 	
 	public void writeStory() {
