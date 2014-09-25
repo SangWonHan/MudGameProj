@@ -5,10 +5,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Chat.server.ClientConnectionThread;
+import Chat.server.Player;
+
 public class ChatServer {
 	
-	static ArrayList<ClientConnectionThread> clients
-		= new ArrayList<ClientConnectionThread>();
+	static ArrayList<ClientConnectionThread> clients 
+	= new ArrayList<ClientConnectionThread>(); //플레이어 정보를 담는 리스트
+static ArrayList<Player> players = new ArrayList<Player>();
+final static int BOOKATTACK = 1;
+final static int QUESTIONATTACK = 2;
+final static int LAZYATTACK = 3;
+//final static int AVOID = 4;
+final static int USEBOMB = 4;
+final static int USEPOTION = 5;
 	
 	//모든 클라이언트에게 메시지를 보내는 메서드
 	public static void sendMessageToAll(String message) {
@@ -40,7 +50,7 @@ public class ChatServer {
 		
 	}
 	
-	public static void recurvery() {
+	public static void recorvery() {
 		
 	}
 	
