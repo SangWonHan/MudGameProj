@@ -40,7 +40,7 @@ public class ClientConnectionThread extends Thread {
 		String line = null;
 		try {
 			// 첫 메시지를 아이디로 처리
-			
+			System.out.println("sssd");
 			if(!start){
 				boolean idCheck = false;
 				while(!idCheck){
