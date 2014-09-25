@@ -66,6 +66,10 @@ public class GameProgressThread extends Thread {
 	}
 	
 	public void recurvery() {
-		
+		for(int i = 0; i < ChatServer.players.size(); i++){
+			Player p = ChatServer.players.get(i);
+			p.hp += 100;
+			p.potionCount += 3;
+		}
 	}
 }
