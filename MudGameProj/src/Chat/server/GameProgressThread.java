@@ -1,5 +1,7 @@
 package Chat.server;
 
+import java.util.Random;
+
 public class GameProgressThread extends Thread {
 	
 	int distance[];
@@ -33,7 +35,26 @@ public class GameProgressThread extends Thread {
 	}
 	
 	public void monsterMeetPoint() {
-		System.out.println("");
+	
+		int ran =0;
+		boolean cheak;
+		Random r =new Random();
+		
+		for (int i=0; i<monster.length; i++){
+			ran =r.nextInt(100)+1;
+			
+			cheak = true;
+			
+			for (int j=0; j < i; j++){
+				if(monster[j] ==ran){
+					i--;
+					cheak=false;
+				}
+			}
+			if(cheak) monster[i] =ran;				
+		}
+		
+		for(int i=0; i<monster.length; i++);
 	}
 	
 	public void writeStory() {
