@@ -30,7 +30,7 @@ public class ChatClient {
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		
 		// 서버에 연결하는 소켓 생성
-		Socket socket = new Socket("192.168.0.105", 10001);
+		Socket socket = new Socket("127.0.0.1", 10001);
 		/*
 		String[] clientInfo = new String[2];
 		
