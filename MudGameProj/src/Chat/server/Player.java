@@ -17,17 +17,25 @@ public class Player extends Unit {
 		super(name, hp, minDamage, maxDamage);
 	}
 	
-	public void useItem(){
+	public void useItem() {
 		//포션 사용
 		
 	}
-	public void useSkill(){
-		//스킬 사용
+	
+	public void useBomb() {
+		
 	}
-	public void attack(Unit unit){
+	
+	public void useSkill() {
+		//스킬 사용
+		
+	}
+	public void attack(Unit unit) {
 		//일반 공격
+		
 	}
 	public void setName(String name){
 		this.name = name;
+		
 	}
 }
