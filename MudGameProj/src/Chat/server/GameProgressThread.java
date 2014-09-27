@@ -7,6 +7,7 @@ import java.util.Random;
  
 
 
+
 import Chat.client.ChatClient; 
  
 
@@ -30,8 +31,22 @@ import Chat.client.ChatClient;
  		writeStory(); 
  		int timeCount = 0; 
  		int i = 0; 
+ 		
+ 		String message = null;
+ 		
+ 		while(true) {
+ 			synchronized (ChatServer.queues) {
+ 				try {
+ 					message = ChatServer.queues.take();
+ 					System.out.println("클라이언트로부터 받은 메시지 : " + message);
+ 				} catch (InterruptedException e1) {
+ 					// TODO Auto-generated catch block
+ 					e1.printStackTrace();
+ 				}
+			}
+ 		}
  
-
+/*
  		monsterMeetPoint(); 
  		 
  		while (timeCount < 100) {			 
@@ -56,7 +71,7 @@ import Chat.client.ChatClient;
  				 
  			}			 
  		} 
- 		 
+*/
  	} 
  	 
  	public void monsterMeetPoint() { 

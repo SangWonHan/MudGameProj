@@ -23,7 +23,7 @@ public class Player extends Unit {
 	}
 	
 	public void useBomb() {
-		
+		//ÆøÅº »ç¿ë
 	}
 	
 	public void useSkill() {

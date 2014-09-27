@@ -96,6 +96,7 @@ public class ClientConnectionThread extends Thread {
 				// 일반 메시지 처리
 				else {
 					ChatServer.sendMessageToAll(id + "님의 메시지: " + line);
+					ChatServer.queues.add(line);
 				}
 			}
 			
