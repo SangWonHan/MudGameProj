@@ -72,7 +72,7 @@ public class GameProgressThread extends Thread {
 			if(cheak) appearMonster[i] =ran;
 		
 			Arrays.sort(apperMonster);
-		for(int i: appermonster){
+		for(int i: apperMonster){
 			System.out.println(i+ " ");
 		}
 		}
