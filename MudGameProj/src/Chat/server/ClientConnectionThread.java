@@ -99,6 +99,7 @@ public class ClientConnectionThread extends Thread {
 				}
 			}
 			
+			
 		} catch (IOException e) {
 //			e.printStackTrace();
 			System.out.println("클라이언트와의 연결이 종료되었습니다.");

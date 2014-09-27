@@ -1,15 +1,21 @@
 package Chat.server;
 
+import java.io.BufferedReader;
 import java.util.Random;
+
+import Chat.client.ChatClient;
 
 public class GameProgressThread extends Thread {
 	
 	int distance[];
-	int monster[];
+	int appearMonster[];
+	
+	private static final String MONSTER_KILLED = "몬스터를 처치하였습니다.";
+	private static final String PLAYER_DIED = "에게 죽임 당하셨습니다.";
 	
 	public GameProgressThread() {
 		distance = new int[100];
-		monster = new int[3];
+		appearMonster = new int[3];
 	}
 
 	@Override
@@ -17,14 +23,66 @@ public class GameProgressThread extends Thread {
 		
 		writeStory();
 		int timeCount = 0;
+		int i = 0;
+
+		monsterMeetPoint();
+		
+		Unit JSP = new Unit(100, 40, 60, "JSP");
+		Unit Servlet = new Unit(100, 40, 60, "Servlet");
+		Unit Java = new Unit(100, 40, 60, "Java");
+		Player user = new Player();
 		
 		while (timeCount < 100) {			
 			
 			try {
 				Thread.sleep(500);
 				System.out.println(timeCount);
-				ChatServer.sendMessageToAll("이11111습니다.");
+				ChatServer.sendMessageToAll(timeCount + "만큼 이동했습니다.");
 				timeCount++;
+				if (i < 3) {
+					if ( timeCount == appearMonster[i]){
+						
+						ChatServer.sendMessageToAll(ChatServer.FIGHTSTART);
+	//					ChatServer.sendMessageToAll(ChatServer.ATCMENU);
+						System.out.println("i 값 : " + i);
+						i++;
+						
+						int select = 0;
+						
+	/*					switch (select) {
+						
+						case 1 :
+							//BOOKATTACK 사용
+							user.attack(JSP);
+							ChatServer.sendMessageToAll(
+							break;
+							
+						case 2 :
+							//QUESTIONATTACK 사용
+							break;
+							
+						case 3 :
+							//LAZYATTACK 사용
+							
+							break;
+						
+						case 4 :
+							//USEBOMB 사용
+							break;
+							
+						case 5 :
+							//POTION 사용
+							
+							break;
+							
+						default :
+							System.out.println("잘못 입력 되었습니다. 기본 공격을 진행합니다.");
+							//case 1과 같이 진행
+							break;
+						
+						}*/
+					}
+				}
 			} catch (InterruptedException e) { 
 				
 			} finally {
@@ -40,21 +98,21 @@ public class GameProgressThread extends Thread {
 		boolean cheak;
 		Random r =new Random();
 		
-		for (int i=0; i<monster.length; i++){
+		for (int i=0; i<appearMonster.length; i++){
 			ran =r.nextInt(100)+1;
 			
 			cheak = true;
 			
 			for (int j=0; j < i; j++){
-				if(monster[j] ==ran){
+				if(appearMonster[j] ==ran){
 					i--;
 					cheak=false;
 				}
 			}
-			if(cheak) monster[i] =ran;				
+			if(cheak) appearMonster[i] =ran;				
 		}
 		
-		for(int i=0; i<monster.length; i++);
+		for(int i=0; i<appearMonster.length; i++);
 	}
 	
 	public void writeStory() {

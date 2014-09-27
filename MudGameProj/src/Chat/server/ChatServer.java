@@ -19,6 +19,11 @@ final static int LAZYATTACK = 3;
 //final static int AVOID = 4;
 final static int USEBOMB = 4;
 final static int USEPOTION = 5;
+final static String FIGHTSTART = "길을 가는 중 몬스터를 만났습니다." + ""
+		+ "싸움이 시작되었습니다.\n";
+final static String ATCMENU = "공격 메뉴를 선택해 주세요.\n" 
+		+"1.과제회피 공격  2. 질문공세 공격  3. 농땡이 공격  4. 폭탄사용";
+
 	
 	//모든 클라이언트에게 메시지를 보내는 메서드
 	public static void sendMessageToAll(String message) {
