@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Random;
 
 import Chat.server.ChatServer;
 
@@ -34,18 +35,30 @@ public class ClientConnectionThread extends Thread {
 		writer.write(message + "\n");
 		writer.flush();
 	}
+	
 	public void addID(Player p, String id){
 		ChatServer.players.add(p);
 		p.setName(id);
 		sendMessage(id + "캐릭터가 생성되었습니다.");
 		ChatServer.sendMessageToAll(id   + " 님이 접속 하였습니다." );
 	}
+	
+	public void attack(Unit unit) {
+		ChatServer.sendMessageToAll(p.name + "님이 공격하였습니다.");
+		unit.hp -= p.damage;
+	}
+	
+	public void useBomb(Unit unit) {
+		//폭탄 사용
+		ChatServer.sendMessageToAll(p.name + "님이 폭탄을 사용하였습니다.");
+	}
+	
 	// 이 쓰레드가 할 일
 	public void run() {
 		String line = null;
 		try {
 			// 첫 메시지를 아이디로 처리
-			if(!start){
+			if(!start) {
 				boolean idCheck = false;
 				while(!idCheck){
 					id = reader.readLine();
@@ -98,23 +111,7 @@ public class ClientConnectionThread extends Thread {
 					}
 				}
 				
-				/*
-				else if (line.equals("/stage1")) {
-					synchronized (ChatServer.fightQueues) {
-						ChatServer.fightQueues.add(line);
-					}		
-				}
-				
-				else if (line.equals("/stage2")) {
-					synchronized (ChatServer.pkQueues) {
-						ChatServer.pkQueues.add(line);
-					}		
-				}
-				*/
-				
-				
-				
-				// 일반 메시지 처리
+				// 채팅 메시지 처리
 				else if (line.startsWith("/m ")){
 					ChatServer.sendMessageToAll(id + "님의 메시지: " + line);			
 				}
@@ -142,8 +139,7 @@ public class ClientConnectionThread extends Thread {
 			// 접속 종료 안내 메시지를 모든 클라이언트에게 전송
 			ChatServer.sendMessageToAll(id + "님이 접속을 종료하였습니다.");
 		}
-	}
-	
+	}	
 }
 
 /*
