@@ -1,126 +1,134 @@
-package Chat.server;
+package Chat.server; 
+ 
 
-import java.io.BufferedReader;
-import java.util.Random;
+ import java.io.BufferedReader; 
+import java.util.Arrays;
+import java.util.Random; 
+ 
 
-import Chat.client.ChatClient;
 
-public class GameProgressThread extends Thread {
-	
-	int distance[];
-	int appearMonster[];
-	
-	private static final String MONSTER_KILLED = "ëª¬ìŠ¤í„°ë¥¼ ì²˜ì¹˜í•˜ì˜€ìŠµë‹ˆë‹¤.";
-	private static final String PLAYER_DIED = "ì—ê²Œ ì£½ì„ ë‹¹í•˜ì…¨ìŠµë‹ˆë‹¤.";
-	
-	public GameProgressThread() {
-		distance = new int[100];
-		appearMonster = new int[3];
-	}
+import Chat.client.ChatClient; 
+ 
 
-	@Override
-	public void run() {
-		
-		writeStory();
-		int timeCount = 0;
-		int i = 0;
+ public class GameProgressThread extends Thread { 
+ 	 
+ 	int distance[]; 
+ 	int appearMonster[]; 
+ 	 
+ 	private static final String MONSTER_KILLED = "¸ó½ºÅÍ¸¦ Ã³Ä¡ÇÏ¿´½À´Ï´Ù."; 
+ 	private static final String PLAYER_DIED = "¿¡°Ô Á×ÀÓ ´çÇÏ¼Ì½À´Ï´Ù."; 
+ 	 
+ 	public GameProgressThread() { 
+ 		distance = new int[100]; 
+ 		appearMonster = new int[3]; 
+ 	} 
+ 
 
-		monsterMeetPoint();
-		
-		while (timeCount < 100) {			
-			
-			try {
-				Thread.sleep(500);
-				System.out.println(timeCount);
-				ChatServer.sendMessageToAll(timeCount + "ë§Œí¼ ì´ë™í–ˆìŠµë‹ˆë‹¤.");
-				timeCount++;
-				if (i < 3) {
-					if ( timeCount == appearMonster[i]){
-						
-						ChatServer.sendMessageToAll(ChatServer.FIGHTSTART);
-	//					ChatServer.sendMessageToAll(ChatServer.ATCMENU);
-						System.out.println("i ê°’ : " + i);
-						i++;
-					}
-				}
-			} catch (InterruptedException e) { 
-				
-			} finally {
-				
-			}			
-		}
-		
-	}
-	
-	public void monsterMeetPoint() {
-	
-		int ran =0;
-		boolean cheak;
-		Random r =new Random();
-		
-		for (int i=0; i<appearMonster.length; i++){
-			ran =r.nextInt(100)+1;
-			
-			cheak = true;
-			
-			for (int j=0; j < i; j++){
-				if(appearMonster[j] ==ran){
-					i--;
-					cheak=false;
-				}
-			}
-			if(cheak) appearMonster[i] =ran;
-		
-			Arrays.sort(apperMonster);
-		for(int i: apperMonster){
-			System.out.println(i+ " ");
-		}
-		}
-	}
-	
-	public void writeStory() {
-		ChatServer.sendMessageToAll("ê°•ë‚¨ í•œë³µíŒ.");
-		ChatServer.sendMessageToAll("í˜¼ì¡í•œ ì‹œë‚´ë¥¼ ëš«ê³  ì†ì†ë“¤ì´ ìš©ì‚¬ë“¤ì´ ì—¬ê¸°ì— ëª¨ì´ê³  ìˆë‹¤...");
-		ChatServer.sendMessageToAll("ì„¸ê³„ì˜ ì•ˆë…•â˜…ì„ ìœ„í•´ ëœ»ì„ í’ˆì€ ìë“¤ì´ë¼ë©´ ê·¸ ëˆ„êµ¬ë¼ë„ ëª¨ì—¬ ê·¸ ëœ»ì„ ê°™ì´ í•˜ìëŠ” ë°©ì´ ë‚´ê±¸ë ¸ê¸° ë•Œë¬¸ì´ë‹¤.");
-		ChatServer.sendMessageToAll("í•˜ì§€ë§Œ ì••ë°•ìŠ¤ëŸ¬ìš´ ë©´ì ‘ì´ ëª¨ì—¬ë“  ìš©ì‚¬ë“¤ì„ ê¸°ë‹¤ë¦¬ê³  ìˆì—ˆê³ ");
-		ChatServer.sendMessageToAll("ê·¸ë“¤ì€ ~ëœ»ë°–ì˜ ë§Œë‚¨~ì„ ê·¹ë³µí•˜ê³  ìƒˆë¡œìš´ ì„¸ê³„ì™€ ì¡°ìš°í–ˆë‹¤.");
-		ChatServer.sendMessageToAll("Hello World!");
-		ChatServer.sendMessageToAll("ì´ì œ ê°œë°œìì˜ ê¿ˆì„ ê°–ê³  ìˆëŠ” ìš©ì‚¬ë“¤ì´ ìŠ¤í™ì´ˆì›” ë©˜í† ìŠ¤ì¿¨ì— ì…í•™í•˜ì˜€ë‹¤. ê·¸ëŸ¬ë‚˜ ê°œë°œìë¡œ ê°€ëŠ” ê¸¸ì€ ë§Œë§Œì¹˜ ì•Šì€ë°....");
+ 	@Override 
+ 	public void run() { 
+ 		 
+ 		writeStory(); 
+ 		int timeCount = 0; 
+ 		int i = 0; 
+ 
 
-	}
-	/**	public void fightMonsterMessage() {
-	ChatServer.sendMessageToAll("ì ì´ì œ ìƒˆë¡œìš´ ë§ˆìŒìœ¼ë¡œ ì‹œì‘í•´ë³´ì~~~~~");
-	ChatServer.sendMessageToAll("ìŠ¬ìŠ¬ ì§€ì³ê°€ê¸° ì‹œì‘í•œë‹¤..... ì•„ì§ ë§ì´ ë‚¨ì•˜ëŠ”ë°....");
-	ChatServer.sendMessageToAll("ì´ì œ ê²Œì‹œíŒ ì •ë„ëŠ” ë§Œë“¤ ìˆ˜(?) ìˆë‹¤.. í•˜ì§€ë§Œ ì—¬ê¸°ì„œ ëì´ ì•„ë‹ˆì—ˆë‹¤...!");
-	ChatServer.sendMessageToAll("ì´ì œ í”„ë¡œì íŠ¸ ì¶œí’ˆì„ í•  ì°¨ë¡€ì´ë‹¤. ë°œí‘œê°€ ì‹œì‘ëœë‹¤.");
-	ChatServer.sendMessageToAll("í”„ë¡œì íŠ¸ ë°œí‘œë¥¼ ë§ˆì¹˜ê³  ì´ì œ ê°ìì˜ ê¸¸ë¡œ....");
-	ChatServer.sendMessageToAll("ì–´ë‘ì»´ì»´í•œ ì§€í•˜. ë‚¡ì•„ë³´ì´ëŠ” ì˜ìì™€ ì±…ìƒë“¤ì´ ë¬´ì§ˆì„œí•˜ê²Œ ë†“ì—¬ìˆë‹¤. í™˜ê¸°ë˜ì§€ ì•ŠëŠ” ëˆì í•œ ê³µê¸°ê°€ ê¸°ë¶„ ë‚˜ì˜ë‹¤."); //ì§€í•˜1ì¸µ
-	ChatServer.sendMessageToAll("ì§‘ì¤‘ì ì¸ êµìœ¡ì„ ë°›ì„ ìˆ˜ ìˆëŠ”ê³³. ë ˆë²¨ì—…ì´ ë¹ ë¥¼ ê²ƒ ê°™ì§€ë§Œ ëˆ„êµ¬ë„ ì¡¸ìŒì€ í”¼í•  ìˆ˜ ì—†ëŠ”ë“¯ í•˜ë‹¤.");  // 3ì¸µ ê°•ì˜ì‹¤
-	ChatServer.sendMessageToAll("ë„“ì€ ì›íƒ ì£¼ë³€ìœ¼ë¡œ 20ëª… ì •ë„ ì•‰ì„ ìˆ˜ ìˆëŠ” ì¥ì†Œ. ì²˜ìŒ ì™”ì„ ë•Œì˜ ê·¸ ê¸´ì¥ê°ì´ ì‚´ì•„ë‚˜ëŠ” ê²ƒ ê°™ë‹¤.");  // ì›íƒíšŒì˜ì¥, PKë£¸
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! Javaê°€ ë‚˜íƒ€ë‚¬ë‹¤. ê°ì²´ë¥¼ ì´í•´í•œë‹¤ë©´ ì–´ë µì§€ ì•Šê²Œ ë¬¼ë¦¬ì¹  ìˆ˜ ìˆì„ê²ƒì´ë‹¤.");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! ìˆ˜ ë§ì€ ì¿¼ë¦¬ë¡œ ëª¸ì„ ë‘˜ëŸ¬ì‹¼ Oracleì´ ê¸¸ì„ ë§‰ì•„ì„°ë‹¤.");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! Networkì˜ ë“±ì¥. Socketë¶€í„° ì°¨ë¡€ë¡œ ê³µëµí•˜ì.");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! JSPê°€ ë‚˜íƒ€ë‚¬ë‹¤!! ì•ì— ë²„í‹°ê³  ì„œ ìˆëŠ” Scriptë¶€í„° ë¬´ë„ˆëœ¨ë ¤ì•¼ í•  ë“¯ í•˜ë‹¤.");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! XMLê°€ ë‚˜íƒ€ë‚¬ë‹¤!  Parsingìœ¼ë¡œ ê³µëµí•œë‹¤ë©´ ë°˜ë“œì‹œ ì´ê¸¸ ìˆ˜ ìˆë‹¤.");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! Ajaxì´ë‹¤. ë‹¹í™©í•˜ì§€ ë§ê³ ...ë‹¹í™©í–ˆë‹¤.");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! Strutsê°€ ë§í–ˆë‹¤. ë„ˆ... ë‚˜ ì•Œì§€?");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! ìš°ë¦¬ì—ê²Œë„ ë´„ì€ ì˜¤ëŠ”ê°€??? ì˜¤ê¸´ì™”ë‹¤ Springì´ ë‚˜íƒ€ë‚¬ë‹¤");
-	ChatServer.sendMessageToAll("ì  ë“±ì¥! CHJ...ì˜ ë³´ì´ì§€ ì•Šë˜ ìµœì¢…ë³´ìŠ¤ê°€ ë‚˜íƒ€ë‚¬ë‹¤! ì—¬ê¸°ê¹Œì§€ ì˜¨ ê·¸ ê°•ì¸í•¨ê³¼ ì§€í˜œë¡œ ëŒíŒŒí•´ë³´ì.");
-	ChatServer.sendMessageToAll("í›Œë¥­í•œ ì´ˆë³´ ê°œë°œìë¡œ ì „ì§í•œ í”Œë ˆì´ì–´ë“¤. í•˜ì§€ë§Œ ì„¸ìƒì€ 1ìœ„ë§Œ ê¸°ì–µí•˜ëŠ”ë²•! ë™ë£Œë“¤ê³¼ì˜ ìš°ì—´ì„ ê°€ë ¤ë³´ì."); // í† ë„ˆë¨¼íŠ¸, PKë£¸
-	ChatServer.sendMessageToAll("ì  ë“±ì¥!ì¼ê²ƒê°™ëƒ!!!ì•„ë‹ˆê±°ë“ ?ì•„ë‹ˆê±°ë“ ?ì ì•„ë‹ˆê±°ë“ ???");
-	}
-*/		
-	
-	
-	public void fightMonster() {
-		
-	}
-	
-	public void recurvery() {
-		for(int i = 0; i < ChatServer.players.size(); i++){
-			Player p = ChatServer.players.get(i);
-			p.hp += 100;
-			p.potionCount += 3;
-		}
-	}
-}
+ 		monsterMeetPoint(); 
+ 		 
+ 		while (timeCount < 100) {			 
+ 			 
+ 			try { 
+ 				Thread.sleep(500); 
+ 				System.out.println(timeCount); 
+ 				ChatServer.sendMessageToAll(timeCount + "¸¸Å­ ÀÌµ¿Çß½À´Ï´Ù."); 
+ 				timeCount++; 
+ 				if (i < 3) { 
+ 					if ( timeCount == appearMonster[i]){ 
+ 						 
+ 						ChatServer.sendMessageToAll(ChatServer.FIGHTSTART); 
+ 	//					ChatServer.sendMessageToAll(ChatServer.ATCMENU); 
+ 						System.out.println("i °ª : " + i); 
+ 						i++; 
+ 					} 
+ 				} 
+ 			} catch (InterruptedException e) {  
+ 				 
+ 			} finally { 
+ 				 
+ 			}			 
+ 		} 
+ 		 
+ 	} 
+ 	 
+ 	public void monsterMeetPoint() { 
+ 	 
+ 		int ran =0; 
+ 		boolean cheak; 
+ 		Random r =new Random(); 
+ 		 
+ 		for (int i=0; i<appearMonster.length; i++){ 
+ 			ran =r.nextInt(100)+1; 
+ 			 
+ 			cheak = true; 
+ 			 
+ 			for (int j=0; j < i; j++){ 
+ 				if(appearMonster[j] ==ran){ 
+ 					i--; 
+ 					cheak=false; 
+ 				} 
+ 			} 
+ 			if(cheak) appearMonster[i] =ran; 
+ 		 
+ 			Arrays.sort(appearMonster); 
+ 		for(int i1: appearMonster){ 
+ 			System.out.println(i1+ " "); 
+ 		} 
+ 		} 
+ 	} 
+ 	 
+ 	public void writeStory() { 
+ 		ChatServer.sendMessageToAll("°­³² ÇÑº¹ÆÇ."); 
+ 		ChatServer.sendMessageToAll("È¥ÀâÇÑ ½Ã³»¸¦ ¶Õ°í ¼Ó¼ÓµéÀÌ ¿ë»çµéÀÌ ¿©±â¿¡ ¸ğÀÌ°í ÀÖ´Ù..."); 
+ 		ChatServer.sendMessageToAll("¼¼°èÀÇ ¾È³ç¡ÚÀ» À§ÇØ ¶æÀ» Ç°Àº ÀÚµéÀÌ¶ó¸é ±× ´©±¸¶óµµ ¸ğ¿© ±× ¶æÀ» °°ÀÌ ÇÏÀÚ´Â ¹æÀÌ ³»°É·È±â ¶§¹®ÀÌ´Ù."); 
+ 		ChatServer.sendMessageToAll("ÇÏÁö¸¸ ¾Ğ¹Ú½º·¯¿î ¸éÁ¢ÀÌ ¸ğ¿©µç ¿ë»çµéÀ» ±â´Ù¸®°í ÀÖ¾ú°í"); 
+ 		ChatServer.sendMessageToAll("±×µéÀº ~¶æ¹ÛÀÇ ¸¸³²~À» ±Øº¹ÇÏ°í »õ·Î¿î ¼¼°è¿Í Á¶¿ìÇß´Ù."); 
+ 		ChatServer.sendMessageToAll("Hello World!"); 
+ 		ChatServer.sendMessageToAll("ÀÌÁ¦ °³¹ßÀÚÀÇ ²ŞÀ» °®°í ÀÖ´Â ¿ë»çµéÀÌ ½ºÆåÃÊ¿ù ¸àÅä½ºÄğ¿¡ ÀÔÇĞÇÏ¿´´Ù. ±×·¯³ª °³¹ßÀÚ·Î °¡´Â ±æÀº ¸¸¸¸Ä¡ ¾ÊÀºµ¥...."); 
+ 
+
+ 	} 
+ 	/**	public void fightMonsterMessage() { 
+ 	ChatServer.sendMessageToAll("ÀÚ ÀÌÁ¦ »õ·Î¿î ¸¶À½À¸·Î ½ÃÀÛÇØº¸ÀÚ~~~~~"); 
+ 	ChatServer.sendMessageToAll("½½½½ ÁöÃÄ°¡±â ½ÃÀÛÇÑ´Ù..... ¾ÆÁ÷ ¸¹ÀÌ ³²¾Ò´Âµ¥...."); 
+ 	ChatServer.sendMessageToAll("ÀÌÁ¦ °Ô½ÃÆÇ Á¤µµ´Â ¸¸µé ¼ö(?) ÀÖ´Ù.. ÇÏÁö¸¸ ¿©±â¼­ ³¡ÀÌ ¾Æ´Ï¾ú´Ù...!"); 
+ 	ChatServer.sendMessageToAll("ÀÌÁ¦ ÇÁ·ÎÁ§Æ® ÃâÇ°À» ÇÒ Â÷·ÊÀÌ´Ù. ¹ßÇ¥°¡ ½ÃÀÛµÈ´Ù."); 
+ 	ChatServer.sendMessageToAll("ÇÁ·ÎÁ§Æ® ¹ßÇ¥¸¦ ¸¶Ä¡°í ÀÌÁ¦ °¢ÀÚÀÇ ±æ·Î...."); 
+ 	ChatServer.sendMessageToAll("¾îµÎÄÄÄÄÇÑ ÁöÇÏ. ³°¾Æº¸ÀÌ´Â ÀÇÀÚ¿Í Ã¥»óµéÀÌ ¹«Áú¼­ÇÏ°Ô ³õ¿©ÀÖ´Ù. È¯±âµÇÁö ¾Ê´Â ²öÀûÇÑ °ø±â°¡ ±âºĞ ³ª»Ú´Ù."); //ÁöÇÏ1Ãş 
+ 	ChatServer.sendMessageToAll("ÁıÁßÀûÀÎ ±³À°À» ¹ŞÀ» ¼ö ÀÖ´Â°÷. ·¹º§¾÷ÀÌ ºü¸¦ °Í °°Áö¸¸ ´©±¸µµ Á¹À½Àº ÇÇÇÒ ¼ö ¾ø´Âµí ÇÏ´Ù.");  // 3Ãş °­ÀÇ½Ç 
+ 	ChatServer.sendMessageToAll("³ĞÀº ¿øÅ¹ ÁÖº¯À¸·Î 20¸í Á¤µµ ¾ÉÀ» ¼ö ÀÖ´Â Àå¼Ò. Ã³À½ ¿ÔÀ» ¶§ÀÇ ±× ±äÀå°¨ÀÌ »ì¾Æ³ª´Â °Í °°´Ù.");  // ¿øÅ¹È¸ÀÇÀå, PK·ë 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! Java°¡ ³ªÅ¸³µ´Ù. °´Ã¼¸¦ ÀÌÇØÇÑ´Ù¸é ¾î·ÆÁö ¾Ê°Ô ¹°¸®Ä¥ ¼ö ÀÖÀ»°ÍÀÌ´Ù."); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! ¼ö ¸¹Àº Äõ¸®·Î ¸öÀ» µÑ·¯½Ñ OracleÀÌ ±æÀ» ¸·¾Æ¼¹´Ù."); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! NetworkÀÇ µîÀå. SocketºÎÅÍ Â÷·Ê·Î °ø·«ÇÏÀÚ."); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! JSP°¡ ³ªÅ¸³µ´Ù!! ¾Õ¿¡ ¹öÆ¼°í ¼­ ÀÖ´Â ScriptºÎÅÍ ¹«³Ê¶ß·Á¾ß ÇÒ µí ÇÏ´Ù."); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! XML°¡ ³ªÅ¸³µ´Ù!  ParsingÀ¸·Î °ø·«ÇÑ´Ù¸é ¹İµå½Ã ÀÌ±æ ¼ö ÀÖ´Ù."); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! AjaxÀÌ´Ù. ´çÈ²ÇÏÁö ¸»°í...´çÈ²Çß´Ù."); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! Struts°¡ ¸»Çß´Ù. ³Ê... ³ª ¾ËÁö?"); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! ¿ì¸®¿¡°Ôµµ º½Àº ¿À´Â°¡??? ¿À±ä¿Ô´Ù SpringÀÌ ³ªÅ¸³µ´Ù"); 
+ 	ChatServer.sendMessageToAll("Àû µîÀå! CHJ...Àß º¸ÀÌÁö ¾Ê´ø ÃÖÁ¾º¸½º°¡ ³ªÅ¸³µ´Ù! ¿©±â±îÁö ¿Â ±× °­ÀÎÇÔ°ú ÁöÇı·Î µ¹ÆÄÇØº¸ÀÚ."); 
+ 	ChatServer.sendMessageToAll("ÈÇ¸¢ÇÑ ÃÊº¸ °³¹ßÀÚ·Î ÀüÁ÷ÇÑ ÇÃ·¹ÀÌ¾îµé. ÇÏÁö¸¸ ¼¼»óÀº 1À§¸¸ ±â¾ïÇÏ´Â¹ı! µ¿·áµé°úÀÇ ¿ì¿­À» °¡·Áº¸ÀÚ."); // Åä³Ê¸ÕÆ®, PK·ë 
+ 	ChatServer.sendMessageToAll("Àû µîÀå!ÀÏ°Í°°³Ä!!!¾Æ´Ï°Åµç?¾Æ´Ï°Åµç?Àû¾Æ´Ï°Åµç???"); 
+ 	} 
+ */		 
+ 	 
+ 	 
+ 	public void fightMonster() { 
+ 		 
+ 	} 
+ 	 
+ 	public void recurvery() { 
+ 		for(int i = 0; i < ChatServer.players.size(); i++){ 
+ 			Player p = ChatServer.players.get(i); 
+ 			p.hp += 100; 
+ 			p.potionCount += 3; 
+ 		} 
+ 	} 
+ } 
