@@ -16,7 +16,9 @@ public class ChatServer {
 	= new ArrayList<ClientConnectionThread>(); //플레이어 정보를 담는 리스트
 	
 	static ArrayList<Player> players = new ArrayList<Player>();
-	static BlockingQueue<String> queues = new ArrayBlockingQueue<String>(50);
+	static int stage = 0;
+	static BlockingQueue<String> fightQueues = new ArrayBlockingQueue<String>(50);
+	static BlockingQueue<String> pkQueues = new ArrayBlockingQueue<String>(50);
 	
 	
 	final static int BOOKATTACK = 1;

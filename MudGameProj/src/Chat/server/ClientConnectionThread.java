@@ -87,16 +87,45 @@ public class ClientConnectionThread extends Thread {
 						ChatServer.start = false;
 						GameProgressThread gameThread = new GameProgressThread();
 						gameThread.start();
+						FightThread fT = new FightThread();
+						fT.start();
+						PKThread pT = new PKThread();
+						pT.start();
 					}
 					else {
 						System.out.println("이미 시작하였습니다.");
 						ChatServer.sendMessageToAll("이미 게임을 시작하였습니다.");
 					}
 				}
+				
+				/*
+				else if (line.equals("/stage1")) {
+					synchronized (ChatServer.fightQueues) {
+						ChatServer.fightQueues.add(line);
+					}		
+				}
+				
+				else if (line.equals("/stage2")) {
+					synchronized (ChatServer.pkQueues) {
+						ChatServer.pkQueues.add(line);
+					}		
+				}
+				*/
+				
+				
+				
 				// 일반 메시지 처리
-				else {
-					ChatServer.sendMessageToAll(id + "님의 메시지: " + line);
-					ChatServer.queues.add(line);
+				else if (line.startsWith("/m ")){
+					ChatServer.sendMessageToAll(id + "님의 메시지: " + line);			
+				}
+				
+				else if (line.startsWith("/a ")){
+					if (ChatServer.stage == 1) {
+						ChatServer.fightQueues.add(line);
+					}
+					else if (ChatServer.stage == 2) {
+						ChatServer.pkQueues.add(line);
+					}
 				}
 			}
 			
