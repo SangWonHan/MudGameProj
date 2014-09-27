@@ -34,7 +34,12 @@ public class ClientConnectionThread extends Thread {
 		writer.write(message + "\n");
 		writer.flush();
 	}
-	
+	public void addID(Player p, String id){
+		ChatServer.players.add(p);
+		p.setName(id);
+		sendMessage(id + "캐릭터가 생성되었습니다.");
+		ChatServer.sendMessageToAll(id   + " 님이 접속 하였습니다." );
+	}
 	// 이 쓰레드가 할 일
 	public void run() {
 		String line = null;
@@ -56,25 +61,19 @@ public class ClientConnectionThread extends Thread {
 							break;
 						}
 					}if(check !=2){
-						ChatServer.players.add(p);
-						p.setName(id);
-						sendMessage(id + "캐릭터가 생성되었습니다.");
-						ChatServer.sendMessageToAll(id   + " 님이 접속 하였습니다." );
+						addID(p, id);
 						idCheck = true;
 						break;
 					}
 				}else{
-					ChatServer.players.add(p);
-					p.setName(id);
-					sendMessage(id + "캐릭터가 생성되었습니다.");
-					ChatServer.sendMessageToAll(id   + " 님이 접속 하였습니다." );
+					addID(p, id);
 					idCheck = true;
 					break;
 				}
 				}
 			}	
 			// 모든 클라이언트에게 접속 메시지 송신
-			ChatServer.sendMessageToAll(id + "님이 접속하였습니다.");
+			//ChatServer.sendMessageToAll(id + "님이 접속하였습니다.");
 			// 클라이언트로부터 메시지를 수신
 			while ((line = reader.readLine()) != null) {
 				// 접속 종료 처리
@@ -84,6 +83,7 @@ public class ClientConnectionThread extends Thread {
 			
 				else if (line.equals("/start")) {
 					if (ChatServer.start) {
+						ChatServer.sendMessageToAll(id   + " 님이 게임을 시작시켰습니다." );
 						ChatServer.start = false;
 						GameProgressThread gameThread = new GameProgressThread();
 						gameThread.start();
