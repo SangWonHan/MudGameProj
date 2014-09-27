@@ -27,11 +27,6 @@ public class GameProgressThread extends Thread {
 
 		monsterMeetPoint();
 		
-		Unit JSP = new Unit(100, 40, 60, "JSP");
-		Unit Servlet = new Unit(100, 40, 60, "Servlet");
-		Unit Java = new Unit(100, 40, 60, "Java");
-		Player user = new Player();
-		
 		while (timeCount < 100) {			
 			
 			try {
@@ -76,8 +71,6 @@ public class GameProgressThread extends Thread {
 			}
 			if(cheak) appearMonster[i] =ran;				
 		}
-		
-		for(int i=0; i<appearMonster.length; i++);
 	}
 	
 	public void writeStory() {

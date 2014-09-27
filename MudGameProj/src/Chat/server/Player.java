@@ -13,14 +13,13 @@ public class Player extends Unit {
 		this.minDamage = 30;
 	}
 	
-	public Player(int hp, int maxDamage, int minDamage) {
-		this.hp = hp;
-		this.maxDamage = maxDamage;
-		this.minDamage = minDamage;
+	public Player(String name, int hp, int minDamage, int maxDamage) {
+		super(name, hp, minDamage, maxDamage);
 	}
 	
 	public void useItem(){
 		//포션 사용
+		
 	}
 	public void useSkill(){
 		//스킬 사용

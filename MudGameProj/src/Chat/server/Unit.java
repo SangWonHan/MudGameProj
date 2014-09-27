@@ -31,10 +31,11 @@ public class Unit {
 		
 	}
 	
-	public Unit(int hp, int minDamage, int maxDamage, String name) {
+	public Unit(String name, int hp, int minDamage, int maxDamage) {
+		this.name = name;
 		this.hp = hp;
 		this.minDamage = minDamage;
 		this.maxDamage = maxDamage;
-		this.name = name;
+		
 	}
 }
