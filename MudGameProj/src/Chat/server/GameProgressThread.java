@@ -46,41 +46,6 @@ public class GameProgressThread extends Thread {
 	//					ChatServer.sendMessageToAll(ChatServer.ATCMENU);
 						System.out.println("i 값 : " + i);
 						i++;
-						
-						int select = 0;
-						
-	/*					switch (select) {
-						
-						case 1 :
-							//BOOKATTACK 사용
-							user.attack(JSP);
-							ChatServer.sendMessageToAll(
-							break;
-							
-						case 2 :
-							//QUESTIONATTACK 사용
-							break;
-							
-						case 3 :
-							//LAZYATTACK 사용
-							
-							break;
-						
-						case 4 :
-							//USEBOMB 사용
-							break;
-							
-						case 5 :
-							//POTION 사용
-							
-							break;
-							
-						default :
-							System.out.println("잘못 입력 되었습니다. 기본 공격을 진행합니다.");
-							//case 1과 같이 진행
-							break;
-						
-						}*/
 					}
 				}
 			} catch (InterruptedException e) { 
