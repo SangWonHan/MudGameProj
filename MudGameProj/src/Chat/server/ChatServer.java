@@ -38,22 +38,6 @@ final static int USEPOTION = 5;
 		}
 	}
 	
-	public static void start() {
-		
-	}
-
-	public static void writeStory() {
-		
-	}
-	
-	public static void fightMonster() {
-		
-	}
-	
-	public static void recorvery() {
-		
-	}
-	
 	public static void main(String[] args) throws IOException {
 		
 		// 辑滚 家南 积己
