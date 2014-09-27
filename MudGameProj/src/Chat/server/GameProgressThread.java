@@ -45,8 +45,10 @@ import Chat.client.ChatClient;
  		}
  		*/
  		
-/*
  		monsterMeetPoint(); 
+ 		
+ 		ChatServer.sendMessageToAll("일반 전투가 시작되었습니다.");
+ 		ChatServer.stage = 1;
  		 
  		while (timeCount < 100) {			 
  			 
@@ -57,7 +59,7 @@ import Chat.client.ChatClient;
  				timeCount++; 
  				if (i < 3) { 
  					if ( timeCount == appearMonster[i]){ 
- 						 
+ 						
  						ChatServer.sendMessageToAll(ChatServer.FIGHTSTART); 
  	//					ChatServer.sendMessageToAll(ChatServer.ATCMENU); 
  						System.out.println("i 값 : " + i); 
@@ -68,9 +70,19 @@ import Chat.client.ChatClient;
  				 
  			} finally { 
  				 
- 			}			 
+ 			}
+ 			
+ 			
  		} 
-*/
+ 		
+ 		ChatServer.sendMessageToAll("일반 전투가 끝났습니다. BOSS를 잡으러 갑시다.");
+ 		
+ 		ChatServer.sendMessageToAll("PK가 시작되었습니다. 입장합니다.");
+ 		
+ 		ChatServer.stage = 2;
+ 		
+ 		PKThread pkT = new PKThread();
+ 		pkT.start();
  	} 
  	 
  	public void monsterMeetPoint() { 

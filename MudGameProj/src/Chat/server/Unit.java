@@ -13,22 +13,21 @@ public class Unit {
 		
 	}
 	
-	public void attackFunction() {
-
-		//플레이어가 공격할 때의 데미지
-		//minDamage ~ maxDamage 사이의 1개의 정수인 난수 발생
-		Random damage = new Random(System.currentTimeMillis());
-		  for (int i1 = minDamage; i1 < 2; i1++) {
-	       // nextInt 리턴값은 minDamage <= value < maxDamage 로 나옵니다.
-	       System.out.println("데미지: " + damage.nextInt(maxDamage)+1); 
-		}
-	
+	public int calcDamage() {
+		//데미지를 구한다.
+		Random generator = new Random();
+		
+		int diff = maxDamage - minDamage;
+		damage = generator.nextInt(diff + 1) + minDamage;
+		
+		return damage;
 	}
 	
-	
-	public void attack(Unit unit){
+	public void attack(Unit unit) {
 		//일반 공격
-		
+		if (unit instanceof Unit) {
+			unit.hp -= damage;
+		}
 	}
 	
 	public Unit(String name, int hp, int minDamage, int maxDamage) {
