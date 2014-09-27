@@ -63,6 +63,10 @@ import Chat.client.ChatClient;
  		ChatServer.sendMessageToAll("일반 전투가 시작되었습니다.");
  		ChatServer.stage = 1;
  		
+ 		FightThread fT = new FightThread();
+ 		fT.start();
+ 		
+ 		/*
  		while (timeCount < 100) {			 
  			 
  			try { 
@@ -89,7 +93,7 @@ import Chat.client.ChatClient;
  			}
  			 			
  		} 
- 		
+ 		*/
  		ChatServer.sendMessageToAll("일반 전투가 끝났습니다. BOSS를 잡으러 갑시다.");
  		
  		ChatServer.sendMessageToAll("PK가 시작되었습니다. 입장합니다.");

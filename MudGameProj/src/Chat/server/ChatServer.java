@@ -29,7 +29,7 @@ public class ChatServer {
 	final static int USEPOTION = 5;
 	final static String FIGHTSTART = "길을 가는 중 몬스터를 만났습니다." + ""
 			+ "싸움이 시작되었습니다.\n";
-	final static String ATCMENU = "공격 메뉴를 선택해 주세요.\n" 
+	final static String ATCMENU = "공격 메뉴를 선택해 주세요. ex) 1번 사용 /c 1 \n" 
 			+"1.과제회피 공격  2. 질문공세 공격  3. 농땡이 공격  4. 폭탄사용  5. 포션사용";
 
 	

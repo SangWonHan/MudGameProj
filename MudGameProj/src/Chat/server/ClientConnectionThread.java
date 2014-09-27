@@ -65,24 +65,24 @@ public class ClientConnectionThread extends Thread {
 					if(ChatServer.clients.size() > 0 && ChatServer.players.size() > 0){
 						int check = 1;
 						for(int i = 0 ; i< ChatServer.players.size();i++){
-						String checkId = ChatServer.players.get(i).name;
-						if(id.equals(checkId)){
-							check = 2;
-							sendMessage(checkId);
-							sendMessage("아이디가 중복되었습니다. 다시 입력해주세요.");
-							sendMessage("아이디 입력 : ");
-							break;
-						}
-					}if(check !=2){
+							String checkId = ChatServer.players.get(i).name;
+							if(id.equals(checkId)){
+								check = 2;
+								sendMessage(checkId);
+								sendMessage("아이디가 중복되었습니다. 다시 입력해주세요.");
+								sendMessage("아이디 입력 : ");
+								break;
+							}
+							}if(check !=2){
+								addID(p, id);
+								idCheck = true;
+								break;
+							}
+					}else{
 						addID(p, id);
 						idCheck = true;
 						break;
 					}
-				}else{
-					addID(p, id);
-					idCheck = true;
-					break;
-				}
 				}
 			}	
 			// 모든 클라이언트에게 접속 메시지 송신
@@ -116,7 +116,7 @@ public class ClientConnectionThread extends Thread {
 					ChatServer.sendMessageToAll(id + "님의 메시지: " + line);			
 				}
 				
-				else if (line.startsWith("/a ")){
+				else if (line.startsWith("/c ")){
 					if (ChatServer.stage == 1) {
 						ChatServer.fightQueues.add(line);
 					}
