@@ -75,6 +75,13 @@ public class ChatServer {
 				+ "1.과제회피 공격  2. 질문공세 공격  3. 농땡이 공격  4. 폭탄사용  5. 포션사용");
  	}
  	
+ 	public static void pkShowMenu() {
+ 		sendMessageToAll((clients.get(ChatServer.tern)).p.name + 
+				" 차례입니다. 공격 메뉴를 선택해 주세요. "
+				+ "ex) 1번 사용 /c 1 \n" 
+				+ "1 or 2 or 3.일반 공격  4. 폭탄사용  5. 포션사용");
+ 	}
+ 	
  	public static void energyPrint(Unit u) {
  		
  		sendMessageToAll(u.name + "의 HP : " + u.energy);

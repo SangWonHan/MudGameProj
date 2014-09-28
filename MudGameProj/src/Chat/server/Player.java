@@ -40,8 +40,12 @@ public class Player extends Unit {
 		
 		bombCount--;
 		
-		p.energy -= damage;
+		p.energy -= 100;
 		energy += 50;
+		
+		if (energy >= hp) {
+			energy = hp;
+		}
 	}
 
 	public void useBombMonster(Unit u) {
