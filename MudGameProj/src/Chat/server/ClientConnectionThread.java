@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Random;
 
 import Chat.server.ChatServer;
 
@@ -43,6 +42,7 @@ public class ClientConnectionThread extends Thread {
 		ChatServer.sendMessageToAll(id   + " 님이 접속 하였습니다." );
 	}
 	
+	/*
 	public void attack(Unit unit) {
 		ChatServer.sendMessageToAll(p.name + "님이 공격하였습니다.");
 		unit.hp -= p.damage;
@@ -52,6 +52,7 @@ public class ClientConnectionThread extends Thread {
 		//폭탄 사용
 		ChatServer.sendMessageToAll(p.name + "님이 폭탄을 사용하였습니다.");
 	}
+	*/
 	
 	// 이 쓰레드가 할 일
 	public void run() {
@@ -96,14 +97,16 @@ public class ClientConnectionThread extends Thread {
 			
 				else if (line.equals("/start")) {
 					if (ChatServer.start) {
-						ChatServer.sendMessageToAll(id   + " 님이 게임을 시작시켰습니다." );
+						ChatServer.sendMessageToAll(id   + " 님이 게임을 시작 하였습니다." );
 						ChatServer.start = false;
 						GameProgressThread gameThread = new GameProgressThread();
 						gameThread.start();
+						/*
 						FightThread fT = new FightThread();
 						fT.start();
 						PKThread pT = new PKThread();
 						pT.start();
+						*/
 					}
 					else {
 						System.out.println("이미 시작하였습니다.");
@@ -111,18 +114,46 @@ public class ClientConnectionThread extends Thread {
 					}
 				}
 				
-				// 채팅 메시지 처리
-				else if (line.startsWith("/m ")){
-					ChatServer.sendMessageToAll(id + "님의 메시지: " + line);			
+				else if (line.equals("/gage")) {
+					for (int i = 0; i < ChatServer.clients.size(); i++) {
+			 			//플레이어를 얻어옴
+						ClientConnectionThread thread = ChatServer.clients.get(i);
+						Player p = thread.p;
+						ChatServer.sendMessageToAll(p.name + "의 HP : " + p.energy);
+			 		}
 				}
 				
-				else if (line.startsWith("/c ")){
-					if (ChatServer.stage == 1) {
-						ChatServer.fightQueues.add(line);
+				else if (line.startsWith("/c ")) {
+					String[] wMessage = line.split(" ", 2); //"/c 1"
+					//{"c", "1"}
+					
+					if ((ChatServer.clients.get(ChatServer.tern)).equals(this)) { 
+						System.out.println(wMessage[1]);
+						
+						//메시지가 syntax에 적합한지 체크
+						if (wMessage.length == 2) {
+							if (wMessage[1].equals("1") || wMessage[1].equals("2") || wMessage[1].equals("3")
+		 							|| wMessage[1].equals("4") || wMessage[1].equals("5")) {
+								if (ChatServer.stage == 1) {
+									ChatServer.fightQueues.add(wMessage[1]);
+								}
+								else if (ChatServer.stage == 2) {
+									ChatServer.pkQueues.add(wMessage[1]);
+								}
+							} else {
+								System.out.println("다시 입력해 주세요");
+								sendMessage("다시 입력해 주세요");
+							}
+						}
 					}
-					else if (ChatServer.stage == 2) {
-						ChatServer.pkQueues.add(line);
+					else {
+						System.out.println(p.name + " 님 차례가 아닙니다. 정신 차리십시오.");
+						sendMessage(p.name + "님 차례가 아닙니다. 정신 차리십시오.");
 					}
+				}
+				// 채팅 메시지 처리
+				else {
+					ChatServer.sendMessageToAll(id + "님의 메시지: " + line);
 				}
 			}
 			

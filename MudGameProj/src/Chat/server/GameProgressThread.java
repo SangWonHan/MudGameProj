@@ -1,14 +1,8 @@
 package Chat.server; 
  
 
- import java.io.BufferedReader; 
 import java.util.Arrays;
 import java.util.Random; 
- 
-
-
-
-import Chat.client.ChatClient; 
  
 
  public class GameProgressThread extends Thread { 
@@ -16,25 +10,21 @@ import Chat.client.ChatClient;
  	int distance[]; 
  	int appearMonster[]; 
  	 
- 	private static final String MONSTER_KILLED = "몬스터를 처치하였습니다."; 
- 	private static final String PLAYER_DIED = "에게 죽임 당하셨습니다."; 
- 	 
  	public GameProgressThread() { 
  		distance = new int[100]; 
  		appearMonster = new int[3]; 
  	} 
 
- 	public int calcDamage(int minDamage, int maxDamage) {
-		//데미지를 구한다.
-		Random generator = new Random();
-		int damage = 0;
-		
-		int diff = maxDamage - minDamage;
-		damage = generator.nextInt(diff + 1) + minDamage;
-		
-		return damage;
-	}
-
+ 	
+ 	/*
+ 	public void getInfo() { //상태 조회 메소드
+ 		Player[] p = new Player[ChatServer.players.size()];
+		for(int i = 0; i < ChatServer.players.size(); i++) {
+			p[i] = ChatServer.players.get(i);
+			System.out.print(p[i].energy);
+		}
+ 	}
+ 	*/
  	@Override 
  	public void run() { 
  		 
@@ -58,29 +48,54 @@ import Chat.client.ChatClient;
  //		monsterMeetPoint(); 
  		appearMonster[0] = 3;
  		appearMonster[1] = 15;
- 		appearMonster[2] = 29;
+ 		appearMonster[2] = 49;
  		
  		ChatServer.sendMessageToAll("일반 전투가 시작되었습니다.");
  		ChatServer.stage = 1;
  		
- 		FightThread fT = new FightThread();
- 		fT.start();
- 		
- 		/*
- 		while (timeCount < 100) {			 
+ 		while (timeCount < 50) {			 
  			 
  			try { 
  				Thread.sleep(500); 
  				System.out.println(timeCount); 
  				ChatServer.sendMessageToAll(timeCount + "만큼 이동했습니다."); 
+ 				ChatServer.sendMessageToAll("학원 수료 달성도 : " + timeCount);
  				
  				if (i < 3) { 
  					if ( timeCount == appearMonster[i]){ 
+ 						/*
+ 						ChatServer.sendMessageToAll((ChatServer.clients.get(ChatServer.preTern)).p.name + 
+ 								" 차례입니다. 공격 메뉴를 선택해 주세요. "
+ 								+ "ex) 1번 사용 /c 1 \n" 
+ 								+ "1.과제회피 공격  2. 질문공세 공격  3. 농땡이 공격  4. 폭탄사용  5. 포션사용");
+ 						*/
+ 						Unit monster = null;
  						
- 						ChatServer.sendMessageToAll(ChatServer.FIGHTSTART); 
- 	//					ChatServer.sendMessageToAll(ChatServer.ATCMENU); 
+ 						if (i == 0) {
+ 							monster = new Unit("여자분 이름?", 200, 30, 50);
+ 						} else if (i == 1) {
+ 							monster = new Unit("LimJH", 300, 40, 60);
+ 						} else if (i == 2) {
+ 							monster = new Unit("ChoHJ(BOSS)", 400, 50, 80);
+ 						}
+ 						
+ 						ChatServer.sendMessageToAll("비트 학원의 " + monster.name + "이 등장했다.");
+ 						 						
+ 						FightThread fT = new FightThread(monster);
+ 				 		fT.start();
+ 				 		
+ 				 		fT.join();
+ 						
  						System.out.println("i 값 : " + i); 
  						i++; 
+ 						
+ 						for (int j = 0; j < ChatServer.clients.size(); j++) {
+ 							//플레이어를 얻어옴
+ 	 						ClientConnectionThread thread = ChatServer.clients.get(j);
+ 	 						Player p = thread.p;
+ 	 						
+ 	 						
+ 						}
  					} 
  				}
  				
@@ -93,8 +108,8 @@ import Chat.client.ChatClient;
  			}
  			 			
  		} 
- 		*/
- 		ChatServer.sendMessageToAll("일반 전투가 끝났습니다. BOSS를 잡으러 갑시다.");
+
+ 		ChatServer.sendMessageToAll("모든 전투가 끝났습니다.");
  		
  		ChatServer.sendMessageToAll("PK가 시작되었습니다. 입장합니다.");
  		
@@ -102,7 +117,7 @@ import Chat.client.ChatClient;
  		
  		PKThread pkT = new PKThread();
  		pkT.start();
- 	} 
+ 	}
  	 
  	public void monsterMeetPoint() { 
  	 

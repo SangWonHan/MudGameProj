@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -19,7 +20,9 @@ public class ChatServer {
 	static int stage = 0;
 	static BlockingQueue<String> fightQueues = new ArrayBlockingQueue<String>(50);
 	static BlockingQueue<String> pkQueues = new ArrayBlockingQueue<String>(50);
-	
+	static int tern = 0;
+	static int preTern = 0;
+	public static boolean start = true;
 	
 	final static int BOOKATTACK = 1;
 	final static int QUESTIONATTACK = 2;
@@ -32,6 +35,22 @@ public class ChatServer {
 	final static String ATCMENU = "공격 메뉴를 선택해 주세요. ex) 1번 사용 /c 1 \n" 
 			+"1.과제회피 공격  2. 질문공세 공격  3. 농땡이 공격  4. 폭탄사용  5. 포션사용";
 
+	//플레이어의 턴을 바꿔준다.
+	public static void ternChange() {
+		
+		preTern = tern;
+		
+		System.out.println(tern + "차례 입니다.");
+		
+		tern++;
+		
+		if (tern >= clients.size()) {
+			tern = 0;
+		}
+		
+		System.out.println(tern + "차례 입니다.(턴바뀜)");
+		
+	}
 	
 	//모든 클라이언트에게 메시지를 보내는 메서드
 	public static void sendMessageToAll(String message) {
@@ -42,14 +61,31 @@ public class ChatServer {
 		}
 	}
 	
-	public static boolean start = true;
-	
 	//클라이언트 목록으로부터 클라이언트 삭제
 	public static void removeClient(ClientConnectionThread client) {
 		synchronized (clients) {
 			clients.remove(client);
 		}
 	}
+ 	
+ 	public static void showMenu() {
+ 		sendMessageToAll((clients.get(ChatServer.tern)).p.name + 
+				" 차례입니다. 공격 메뉴를 선택해 주세요. "
+				+ "ex) 1번 사용 /c 1 \n" 
+				+ "1.과제회피 공격  2. 질문공세 공격  3. 농땡이 공격  4. 폭탄사용  5. 포션사용");
+ 	}
+ 	
+ 	public static void energyPrint(Unit u) {
+ 		
+ 		sendMessageToAll(u.name + "의 HP : " + u.energy);
+ 		
+ 		for (int i = 0; i < clients.size(); i++) {
+ 			//플레이어를 얻어옴
+			ClientConnectionThread thread = clients.get(i);
+			Player p = thread.p;
+ 			sendMessageToAll(p.name + "의 HP : " + p.energy);
+ 		}
+ 	}
 	
 	public static void main(String[] args) throws IOException {
 		
