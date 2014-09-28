@@ -115,12 +115,15 @@ public class ClientConnectionThread extends Thread {
 				}
 				
 				else if (line.equals("/gage")) {
+					/*
 					for (int i = 0; i < ChatServer.clients.size(); i++) {
 			 			//플레이어를 얻어옴
 						ClientConnectionThread thread = ChatServer.clients.get(i);
 						Player p = thread.p;
 						ChatServer.sendMessageToAll(p.name + "의 HP : " + p.energy);
 			 		}
+					*/
+					sendMessage(p.name + "의 HP : " + p.energy);
 				}
 				
 				else if (line.startsWith("/c ")) {

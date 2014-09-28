@@ -83,7 +83,7 @@ public class ChatServer {
  			//플레이어를 얻어옴
 			ClientConnectionThread thread = clients.get(i);
 			Player p = thread.p;
- 			sendMessageToAll(p.name + "의 HP : " + p.energy);
+			thread.sendMessage(p.name + "의 HP : " + p.energy);
  		}
  	}
 	

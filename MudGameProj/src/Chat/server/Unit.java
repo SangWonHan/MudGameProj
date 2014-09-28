@@ -21,6 +21,7 @@ public class Unit {
 		this.minDamage = minDamage;
 		this.maxDamage = maxDamage;		
 		energy = hp;
+		alive = true;
 	}
 	
 	protected void calcDamage() {
@@ -43,6 +44,9 @@ public class Unit {
 		System.out.println(name + " 의 공격 데미지 : " + damage);
 		
 		unit.energy -= damage;
-				
+		
+		if (unit.energy <= 0) {
+			unit.alive = false;
+		}
 	}
 }
