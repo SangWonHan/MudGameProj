@@ -51,6 +51,7 @@ public class PKThread extends Thread {
 					p1.usePotion();
 					
 					thread1.sendMessage(p1.name + "님 포션 개수 : " + p1.potionCount);
+					
 					continue;
 					
 				default:
@@ -64,7 +65,7 @@ public class PKThread extends Thread {
 		 			//플레이어를 얻어옴
 					ClientConnectionThread allThread = ChatServer.clients.get(i);
 					Player p = allThread.p;
-					allThread.sendMessage(p.name + "의 HP : " + p.energy);
+					ChatServer.sendMessageToAll(p.name + "의 HP : " + p.energy);
 		 		}
 				
 				if(!isGameOverPlayer()) {

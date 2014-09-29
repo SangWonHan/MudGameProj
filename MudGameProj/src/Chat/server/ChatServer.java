@@ -35,6 +35,11 @@ public class ChatServer {
 	final static String ATCMENU = "공격 메뉴를 선택해 주세요. ex) 1번 사용 /c 1 \n" 
 			+"1.과제회피 공격  2. 질문공세 공격  3. 농땡이 공격  4. 폭탄사용  5. 포션사용";
 
+	public static void initPKTern() {
+		tern = 0;
+		preTern = 1;
+	}
+	
 	//플레이어의 턴을 바꿔준다.
 	public static void ternChange() {
 		

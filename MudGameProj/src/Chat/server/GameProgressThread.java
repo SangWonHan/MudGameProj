@@ -69,14 +69,14 @@ import java.util.Random;
  						
  						int rec = 0;
  						if (i == 0) {
- 							monster = new Unit("여자분 이름?", 200, 30, 50);
- 							rec = 100;
+ 							monster = new Unit("BanPW", 200, 30, 50);
+ 							rec = 60;
  						} else if (i == 1) {
  							monster = new Unit("LimJH", 300, 40, 60);
- 							rec = 140;
+ 							rec = 100;
  						} else if (i == 2) {
  							monster = new Unit("ChoHJ(BOSS)", 400, 50, 80);
- 							rec = 180;
+ 							rec = 140;
  						}
  						
  						ChatServer.sendMessageToAll("비트 학원의 몬스터 " + monster.name + "이 등장했다.");
@@ -106,7 +106,7 @@ import java.util.Random;
  				 			//플레이어를 얻어옴
  							ClientConnectionThread thread = ChatServer.clients.get(j);
  							Player p = thread.p;
- 							ChatServer.sendMessageToAll(p.name + "의 HP : " + p.energy);
+ 							thread.sendMessage(p.name + "의 HP : " + p.energy);
  				 		}
  					}
  				}
@@ -132,7 +132,7 @@ import java.util.Random;
 			try {
 				thread.socket.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			
  			return;
@@ -146,6 +146,86 @@ import java.util.Random;
  		ChatServer.sendMessageToAll("PK가 시작되었습니다. 입장합니다.");
  		
  		ChatServer.stage = 2;
+ 		PKThread pkT1 = new PKThread();
+ 		if(ChatServer.clients.size() > 2){
+	 		int scoreArray[] = new int[ChatServer.clients.size()+1]; 
+	 		for(int j = 0 ; j < ChatServer.clients.size() ; j++){
+	 			
+	 			//플레이어를 얻어옴
+				ClientConnectionThread thread = ChatServer.clients.get(j);
+				Player scoreP = thread.p;
+	 			
+	 			scoreArray[j] = scoreP.scoreCalculator();
+	 			ChatServer.sendMessageToAll(scoreP.name+"님의 점수 : "+ Integer.toString(scoreP.score));
+	 			}	
+	 			
+ 		}
+/* 		
+ 		for (int j = 0; j < ChatServer.clients.size() / 2; j++) {
+ 			//플레이어를 얻어옴
+			ClientConnectionThread thread1 = ChatServer.clients.get(j);
+			ClientConnectionThread thread2 = ChatServer.clients.get(ChatServer.clients.size() - 1 - j);
+			
+			ClientConnectionThread obj = null;
+			obj = thread1;
+			thread1 = thread2;
+			thread2 = obj;
+ 		}
+ 		
+ 		if (ChatServer.clients.size() > 2) {
+	 		for (int j = ChatServer.clients.size() - 1; j >= 2; j--) {
+	 			ChatServer.clients.get(j).sendMessage("당신은 탈락하였습니다.");
+	 			ChatServer.clients.remove(j);
+	 			try {
+					ChatServer.clients.get(j).socket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	 		}
+ 		}
+ */
+ 		if (ChatServer.clients.size() > 2) {
+ 			int delCount = ChatServer.clients.size() - 2;
+ 			for (int j = 0; j < delCount; j++) {
+ 				
+ 				int smallNum = 1000;
+ 				int smallIdx = 0;
+ 				
+ 				for (int k = 0; k < ChatServer.clients.size(); k++) {
+ 					if (ChatServer.clients.get(k).p.score < smallNum) {
+ 						smallNum = ChatServer.clients.get(k).p.score;
+ 						smallIdx = k;
+ 					}
+ 				}
+ 				
+ 				//플레이어를 얻어옴
+				ClientConnectionThread thread = ChatServer.clients.get(smallIdx);
+ 				
+ 				ChatServer.clients.get(smallIdx).sendMessage("당신은 탈락하였습니다.");
+ 				ChatServer.clients.remove(smallIdx);
+ 				try {
+ 					thread.socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+ 			}
+ 		}
+ 		
+ 		
+ 		ChatServer.initPKTern();
+ 		
+// 		if(ChatServer.clients.size() == 2){
+// 			
+ 			pkT1.start();
+ 			try {
+ 				pkT1.join();
+ 			} catch (InterruptedException e) {
+ 				//e.printStackTrace();
+ 			}
+// 		} 	
+		
+/*
  		
 // 		ChatServer.tern = 0;
 // 		ChatServer.preTern = 1;
@@ -156,10 +236,10 @@ import java.util.Random;
  		try {
 			pkT.join();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
- 		
-// 		ChatServer.sendMessageToAll("모든 전투가 끝났습니다. 게임을 종료합니다.");
+*/ 		
+ 		ChatServer.sendMessageToAll("모든 전투가 끝났습니다. 게임을 종료합니다.");
  		
  		//플레이어를 얻어옴
 		ClientConnectionThread thread = ChatServer.clients.get(0);

@@ -5,7 +5,8 @@ public class Player extends Unit {
 	int potionCount;
 	int bombDamage;
 	int potionRecovery;
-	
+	int score;
+	int damageScore;
 	public Player() {
 		super("", 300, 30, 40);
 		
@@ -18,6 +19,7 @@ public class Player extends Unit {
 //		minDamage = 30;
 		bombDamage = 100;
 		potionRecovery = 100;
+		damageScore = 0;
 	}
 	
 	public Player(String name, int hp, int minDamage, int maxDamage) {
@@ -27,8 +29,13 @@ public class Player extends Unit {
 		potionCount = 2;
 		bombDamage = 100;
 		potionRecovery = 100;
+		damageScore = 0;
 	}
-	
+	public int scoreCalculator(){
+			Player p = this;
+			p.score = this.bombCount * 100 + this.energy + this.potionCount * 130 + this.damageScore;
+			return p.score;
+	}
 	public void useBombPlayer(Player p) {
 		if (bombCount <= 0) {
 			ChatServer.sendMessageToAll(potionCount + "´Ô!!! ÆøÅº ¾ø¾î¿ä");
@@ -68,7 +75,7 @@ public class Player extends Unit {
 	
 	public void usePotion() {
 		if (potionCount <= 0) {
-			ChatServer.sendMessageToAll(potionCount + "´Ô!!! Æ÷¼Ç ¾ø¾î¿ä");
+			ChatServer.sendMessageToAll(name + "´Ô!!! Æ÷¼Ç ¾ø¾î¿ä");
 			return;
 		}
 		//Æ÷¼Ç »ç¿ë
@@ -85,5 +92,12 @@ public class Player extends Unit {
 		if (energy >= hp) {
 			energy = hp;
 		}
+	}
+
+	@Override
+	public void attack(Unit unit) {
+		super.attack(unit);
+		
+		damageScore += damage;
 	}
 }
